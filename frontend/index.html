@@ -1,0 +1,263 @@
+<!doctype html>
+<html lang="zh-CN">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Lycoris Panel</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Nunito+Sans:wght@400;500;600;700&family=Varela+Round&display=swap"
+      rel="stylesheet"
+    />
+    <link rel="icon" type="image/png" href="./assets/site-icon.png" />
+    <link rel="apple-touch-icon" href="./assets/site-icon.png" />
+    <link rel="stylesheet" href="./styles.css" />
+  </head>
+  <body class="panel-page">
+    <div class="bg-orb bg-orb-a"></div>
+    <div class="bg-orb bg-orb-b"></div>
+    <section id="coverGate" class="cover-gate" role="button" tabindex="0" aria-label="点击封面进入登录界面">
+      <img id="coverPortrait" class="cover-portrait" src="./assets/cover-chisato.png" alt="锦木千束手捧燃烧的彼岸花" />
+      <div class="cover-vignette"></div>
+      <div class="cover-burn" aria-hidden="true"></div>
+      <canvas id="burnCanvas" class="burn-canvas" aria-hidden="true"></canvas>
+    </section>
+    <button type="button" class="cover-return" data-cover-return>封面</button>
+    <main class="shell">
+      <header class="hero">
+        <div class="brand-line">
+          <img src="./assets/site-icon.png" alt="site icon" class="site-icon" />
+          <p class="hero-kicker">Lycoris User Panel</p>
+        </div>
+        <h1>学习任务面板</h1>
+        <p>邀请码仅在创建任务时消耗一次。</p>
+      </header>
+
+      <section class="card auth-card">
+        <h2>账号状态</h2>
+        <p id="authStateText" class="hint-text">未登录</p>
+        <div class="actions">
+          <button id="logoutBtn" class="btn">退出登录</button>
+        </div>
+      </section>
+
+      <section class="card">
+        <h2>公告栏</h2>
+        <div id="announcementList" class="course-list"></div>
+      </section>
+
+      <section class="card form-card">
+        <h2>超星账号与选项</h2>
+        <div class="grid">
+          <label>
+            任务邀请码
+            <input id="taskInviteCode" type="text" placeholder="创建任务时必填" />
+          </label>
+          <label>
+            超星手机号
+            <input id="username" type="text" placeholder="请输入超星账号" />
+          </label>
+          <label>
+            超星密码
+            <input id="password" type="password" placeholder="请输入超星密码" />
+          </label>
+          <label>
+            播放速度
+            <input id="speed" type="number" min="1" max="2" step="0.1" value="1.5" />
+          </label>
+          <label>
+            并发章节数
+            <input id="jobs" type="number" min="1" max="10" step="1" value="4" />
+          </label>
+          <label>
+            关闭章节处理
+            <select id="notopen_action">
+              <option value="continue">continue</option>
+              <option value="retry">retry</option>
+              <option value="ask">ask</option>
+            </select>
+          </label>
+        </div>
+        <div class="actions">
+          <button id="checkInviteBtn" class="btn" type="button">查看剩余次数</button>
+          <button id="loadCoursesBtn" class="btn btn-gold">获取课程列表</button>
+        </div>
+        <p id="inviteStateText" class="hint-text"></p>
+      </section>
+
+      <section class="card course-card">
+        <div class="section-title">
+          <h2>课程选择</h2>
+        </div>
+        <div id="courseList" class="course-list"></div>
+        <div class="actions">
+          <button id="startBtn" class="btn">启动任务</button>
+        </div>
+      </section>
+
+      <section class="card status-card">
+        <h2>任务状态</h2>
+        <div class="status-row">
+          <span>Task ID</span>
+          <strong id="taskId">-</strong>
+        </div>
+        <div class="status-row">
+          <span>状态</span>
+          <strong id="taskStatus">idle</strong>
+        </div>
+        <div class="status-row">
+          <span>课程进度</span>
+          <strong id="courseProgress">0 / 0</strong>
+        </div>
+        <div class="status-row">
+          <span>模块进度</span>
+          <strong id="moduleProgress">0 / 0</strong>
+        </div>
+        <div class="status-row">
+          <span>当前任务</span>
+          <strong id="currentTask">-</strong>
+        </div>
+        <div class="status-row">
+          <span>播放进度</span>
+          <strong id="playbackProgress">0% · 00:00 / 00:00</strong>
+        </div>
+        <div class="actions task-controls">
+          <button id="pauseTaskBtn" class="btn" type="button" disabled>暂停任务</button>
+          <button id="resumeTaskBtn" class="btn btn-gold" type="button" disabled>继续任务</button>
+          <button id="cancelTaskBtn" class="btn" type="button" disabled>取消任务</button>
+        </div>
+        <div id="activePlaybackList" class="active-playback-list"></div>
+        <pre id="logArea" class="log-area"></pre>
+      </section>
+
+      <section id="adminPanel" class="card admin-control-panel" hidden>
+        <div class="section-title">
+          <h2>管理员控制区</h2>
+          <button id="adminRefreshBtn" class="btn btn-gold" type="button">刷新全部数据</button>
+        </div>
+        <p id="adminStateText" class="hint-text">管理员权限校验中...</p>
+
+        <section class="admin-subsection">
+          <h3>发布公告</h3>
+          <div class="grid">
+            <label>
+              标题
+              <input id="noticeTitle" type="text" placeholder="公告标题" />
+            </label>
+          </div>
+          <label>
+            内容
+            <textarea id="noticeContent" placeholder="公告内容"></textarea>
+          </label>
+          <div class="actions">
+            <button id="publishNoticeBtn" class="btn" type="button">发布公告</button>
+          </div>
+        </section>
+
+        <section class="admin-subsection">
+          <h3>答题模型配置</h3>
+          <div class="grid">
+            <label>
+              启用 AI 答题
+              <select id="aiConfigEnabled">
+                <option value="true">启用</option>
+                <option value="false">停用</option>
+              </select>
+            </label>
+            <label>
+              OpenAI 格式端点
+              <input id="aiEndpoint" type="url" placeholder="https://api.openai.com/v1" />
+            </label>
+            <label>
+              模型
+              <input id="aiModel" type="text" placeholder="gpt-4o-mini" />
+            </label>
+            <label>
+              API Key
+              <input id="aiApiKey" type="password" placeholder="留空则保留当前密钥" />
+            </label>
+            <label>
+              自动提交答案
+              <select id="aiSubmitAnswers">
+                <option value="true">提交</option>
+                <option value="false">仅保存</option>
+              </select>
+            </label>
+            <label>
+              HTTP 代理
+              <input id="aiHttpProxy" type="text" placeholder="可留空" />
+            </label>
+            <label>
+              最小请求间隔（秒）
+              <input id="aiMinIntervalSeconds" type="number" min="0" max="3600" step="1" />
+            </label>
+            <label>
+              查询延迟（秒）
+              <input id="aiDelay" type="number" min="0" max="60" step="0.1" />
+            </label>
+            <label>
+              覆盖率
+              <input id="aiCoverRate" type="number" min="0" max="1" step="0.01" />
+            </label>
+            <label>
+              判断题正确词
+              <input id="aiTrueList" type="text" placeholder="正确,对,√,是" />
+            </label>
+            <label>
+              判断题错误词
+              <input id="aiFalseList" type="text" placeholder="错误,错,×,否,不对,不正确" />
+            </label>
+          </div>
+          <div class="actions">
+            <button id="saveAiConfigBtn" class="btn btn-gold" type="button">保存模型配置</button>
+            <button id="testAiConfigBtn" class="btn" type="button">测试连接</button>
+          </div>
+          <p id="aiConfigStateText" class="hint-text"></p>
+        </section>
+
+        <section class="admin-subsection">
+          <h3>邀请码管理</h3>
+          <div class="grid">
+            <label>
+              备注
+              <input id="inviteNote" type="text" placeholder="例如：注册批次A" />
+            </label>
+            <label>
+              最大使用次数
+              <input id="inviteMaxUses" type="number" min="1" placeholder="留空表示不限" />
+            </label>
+            <label>
+              过期小时数
+              <input id="inviteExpireHours" type="number" min="1" placeholder="留空表示不过期" />
+            </label>
+          </div>
+          <div class="actions">
+            <button id="generateInviteBtn" class="btn btn-gold" type="button">生成邀请码</button>
+          </div>
+          <div id="inviteList" class="course-list"></div>
+        </section>
+
+        <section class="admin-subsection">
+          <h3>任务总览</h3>
+          <div id="taskList" class="course-list"></div>
+        </section>
+
+        <section class="admin-subsection">
+          <h3>单任务跟踪</h3>
+          <label>
+            Task ID
+            <input id="inspectTaskId" type="text" placeholder="输入任务ID后点击查看" />
+          </label>
+          <div class="actions">
+            <button id="inspectTaskBtn" class="btn" type="button">查看任务详情</button>
+          </div>
+          <pre id="adminLogArea" class="log-area"></pre>
+        </section>
+      </section>
+    </main>
+    <script src="./config.js"></script>
+    <script src="./cover.js"></script>
+    <script src="./app.js"></script>
+  </body>
+</html>

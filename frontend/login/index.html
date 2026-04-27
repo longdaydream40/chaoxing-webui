@@ -1,0 +1,55 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Login - Lycoris</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Figtree:wght@500;600;700&family=Noto+Sans+SC:wght@400;500;700&display=swap"
+      rel="stylesheet"
+    />
+    <link rel="icon" type="image/png" href="../assets/site-icon.png" />
+    <link rel="stylesheet" href="../styles.css" />
+  </head>
+  <body class="login-page auth-page">
+    <div class="bg-orb bg-orb-a"></div>
+    <div class="bg-orb bg-orb-b"></div>
+    <button type="button" class="cover-return" data-cover-return>Cover</button>
+    <main class="shell">
+      <section class="card auth-entry-card terminal-auth">
+        <div class="terminal-titlebar">
+          <div class="terminal-dots" aria-hidden="true">
+            <span></span><span></span><span></span>
+          </div>
+          <strong>auth@lycoris:~/login</strong>
+        </div>
+        <div class="terminal-command">
+          <span class="terminal-prompt">guest@lycoris:~$</span>
+          <span>run login --secure</span>
+        </div>
+        <h1 class="auth-title">ACCESS LOGIN</h1>
+        <p class="terminal-output">status: awaiting credentials</p>
+        <div class="grid auth-grid">
+          <label>
+            Username
+            <input id="username" type="text" />
+          </label>
+          <label>
+            Password
+            <input id="password" type="password" />
+          </label>
+        </div>
+        <div class="actions auth-actions">
+          <button id="loginBtn" class="btn">Login</button>
+          <a class="btn btn-gold" href="/register/">Create Account</a>
+        </div>
+        <p id="msg" class="hint-text auth-message"></p>
+      </section>
+    </main>
+    <script src="../config.js"></script>
+    <script src="../cover.js"></script>
+    <script src="./login.js"></script>
+  </body>
+</html>

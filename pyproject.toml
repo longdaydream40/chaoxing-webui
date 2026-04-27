@@ -1,0 +1,14 @@
+[project]
+name = "chaoxing-webui"
+version = "3.1.3"
+description = "带 Web 管理面板的 Chaoxing 自动化任务工具"
+readme = "README.md"
+license = { file = "LICENSE" }
+requires-python = ">=3.13,<4.0"
+dynamic = ["dependencies"]
+
+[tool.setuptools]
+py-modules = []
+
+[tool.setuptools.dynamic]
+dependencies = {file=["requirements.txt"]}

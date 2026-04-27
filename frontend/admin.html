@@ -1,0 +1,110 @@
+<!doctype html>
+<html lang="zh-CN">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Lycoris Admin</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Nunito+Sans:wght@400;500;600;700&family=Varela+Round&display=swap"
+      rel="stylesheet"
+    />
+    <link rel="icon" type="image/png" href="./assets/site-icon.png" />
+    <link rel="stylesheet" href="./styles.css" />
+  </head>
+  <body class="admin-page">
+    <div class="bg-orb bg-orb-a"></div>
+    <div class="bg-orb bg-orb-b"></div>
+    <button type="button" class="cover-return" data-cover-return>封面</button>
+    <main class="shell">
+      <header class="hero">
+        <div class="brand-line">
+          <img src="./assets/site-icon.png" alt="site icon" class="site-icon" />
+          <p class="hero-kicker">Lycoris Admin Console</p>
+        </div>
+        <h1>管理员后台</h1>
+        <p>发布公告、注册邀请码、查看全部任务进度。</p>
+      </header>
+
+      <section class="card">
+        <h2>管理员登录</h2>
+        <div class="grid">
+          <label>
+            用户名
+            <input id="adminUsername" type="text" placeholder="管理员用户名" />
+          </label>
+          <label>
+            密码
+            <input id="adminPassword" type="password" placeholder="管理员密码" />
+          </label>
+        </div>
+        <div class="actions">
+          <button id="adminLoginBtn" class="btn">登录</button>
+          <button id="adminLogoutBtn" class="btn">退出</button>
+          <button id="adminRefreshBtn" class="btn btn-gold">刷新全部数据</button>
+        </div>
+        <p id="adminStateText" class="hint-text">未登录</p>
+      </section>
+
+      <section class="card">
+        <h2>发布公告</h2>
+        <div class="grid">
+          <label>
+            标题
+            <input id="noticeTitle" type="text" placeholder="公告标题" />
+          </label>
+        </div>
+        <label>
+          内容
+          <textarea id="noticeContent" placeholder="公告内容"></textarea>
+        </label>
+        <div class="actions">
+          <button id="publishNoticeBtn" class="btn">发布公告</button>
+        </div>
+      </section>
+
+      <section class="card">
+        <h2>邀请码管理</h2>
+        <div class="grid">
+          <label>
+            备注
+            <input id="inviteNote" type="text" placeholder="例如：注册批次A" />
+          </label>
+          <label>
+            最大使用次数
+            <input id="inviteMaxUses" type="number" min="1" placeholder="留空表示不限" />
+          </label>
+          <label>
+            过期小时数
+            <input id="inviteExpireHours" type="number" min="1" placeholder="留空表示不过期" />
+          </label>
+        </div>
+        <div class="actions">
+          <button id="generateInviteBtn" class="btn btn-gold">注册邀请码</button>
+        </div>
+        <div id="inviteList" class="course-list"></div>
+      </section>
+
+      <section class="card">
+        <h2>任务总览</h2>
+        <div id="taskList" class="course-list"></div>
+      </section>
+
+      <section class="card">
+        <h2>单任务跟踪</h2>
+        <label>
+          Task ID
+          <input id="inspectTaskId" type="text" placeholder="输入任务ID后点击查看" />
+        </label>
+        <div class="actions">
+          <button id="inspectTaskBtn" class="btn">查看任务详情</button>
+        </div>
+        <pre id="adminLogArea" class="log-area"></pre>
+      </section>
+    </main>
+    <script>
+      window.location.replace("/");
+    </script>
+  </body>
+</html>
