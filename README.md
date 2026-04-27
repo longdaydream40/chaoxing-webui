@@ -1,4 +1,4 @@
-<img src="frontend/assets/readme-cover.png" alt="Chaoxing WebUI cover" width="260">
+                                        <img src="frontend/assets/readme-cover.png" alt="Chaoxing WebUI cover" width="260">
 
 # Chaoxing WebUI
 
